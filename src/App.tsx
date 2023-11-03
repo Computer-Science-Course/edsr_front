@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent } from 'react';
 
 function App(): JSX.Element {
   const [file, setFile] = useState<File | null>(null);
