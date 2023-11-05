@@ -1,5 +1,7 @@
 import { useState, ChangeEvent } from 'react';
 
+import './App.css';
+
 function App(): JSX.Element {
   const [isSending, setIsSending] = useState<boolean>(false);
 
@@ -41,15 +43,24 @@ function App(): JSX.Element {
 
 
   return (
-    <div>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload} disabled={isSending} >{isSending ? 'Sending...' : 'Upload'}</button>
+    <div className='container'>
+      <span>
+        <input type="file" onChange={handleFileChange} />
+        <button onClick={handleUpload} disabled={isSending} >{isSending ? 'Sending...' : 'Upload'}</button>
+      </span>
+      <span className='images'>
 
-      {responseImageUrl && 'Original'}
-      {uploadedImageUrl && <img src={uploadedImageUrl} alt="Uploaded" style={{ maxWidth: '100%' }} />}
+        <div className='image'>
+          {responseImageUrl && 'Original'}
+          {uploadedImageUrl && <img src={uploadedImageUrl} alt="Uploaded" style={{ maxWidth: '100%' }} />}
+        </div>
 
-      {responseImageUrl && 'Predicted'}
-      {responseImageUrl && <img src={responseImageUrl} alt="Response" style={{ maxWidth: '100%' }} />}
+        <div className='image'>
+          {responseImageUrl && 'Predicted'}
+          {responseImageUrl && <img src={responseImageUrl} alt="Response" style={{ maxWidth: '100%' }} />}
+        </div>
+
+      </span>
     </div>
   );
 }
