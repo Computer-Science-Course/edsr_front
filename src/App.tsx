@@ -2,16 +2,29 @@ import { useState, ChangeEvent } from 'react';
 
 import './App.css';
 
+const modelOptions: string[] = [
+  '500_200',
+  '200_5',
+];
+
 function App(): JSX.Element {
   const [isSending, setIsSending] = useState<boolean>(false);
 
   const [file, setFile] = useState<File | null>(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+  const [model, setModel] = useState<string>(modelOptions[0]);
   const [responseImageUrl, setResponseImageUrl] = useState<string | null>(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setFile(event.target.files[0]);
+    }
+  };
+
+  const handleModelChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    if (event.target.value) {
+      setModel(event.target.value);
+      console.log(model);
     }
   };
 
@@ -21,6 +34,7 @@ function App(): JSX.Element {
         setIsSending(true);
         const formData = new FormData();
         formData.append('file', file);
+        formData.append('model', model);
 
         const response = await fetch('http://localhost:5000/upload', {
           method: 'POST',
@@ -47,6 +61,14 @@ function App(): JSX.Element {
       <span>
         <input type="file" onChange={handleFileChange} />
         <button onClick={handleUpload} disabled={isSending} >{isSending ? 'Sending...' : 'Upload'}</button>
+      </span>
+      <span>
+        Select the model:
+        <select name="models" id="mode" onChange={handleModelChange}>
+          {modelOptions.map((modelOption) => (
+            <option value={modelOption}>{modelOption}</option>
+          ))}
+        </select>
       </span>
       <span className='images'>
 
